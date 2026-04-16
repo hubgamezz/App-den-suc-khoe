@@ -8,11 +8,13 @@ import {
   Dimensions,
   StatusBar,
   Easing,
+  Platform,
 } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { Colors } from '../theme/colors';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
+const USE_NATIVE = Platform.OS !== 'web';
 
 const YES_MESSAGE = 'BẠN KHÔNG ĐƯỢC ĂN THỊT GÀ! 🍗';
 const NO_MESSAGE = 'BẠN ĂN ĐƯỢC THỊT GÀ! 😢';
@@ -87,13 +89,13 @@ export default function FlashlightScreen() {
             toValue: 0.8,
             duration: 1200,
             easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
+            useNativeDriver: USE_NATIVE,
           }),
           Animated.timing(buttonGlow, {
             toValue: 0.3,
             duration: 1200,
             easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
+            useNativeDriver: USE_NATIVE,
           }),
         ])
       ).start();
@@ -118,7 +120,7 @@ export default function FlashlightScreen() {
       toValue: SCREEN_H * 0.52,
       friction: 7,
       tension: 40,
-      useNativeDriver: true,
+      useNativeDriver: USE_NATIVE,
     }).start(() => {
       setPhase('shining');
 
@@ -127,13 +129,13 @@ export default function FlashlightScreen() {
         Animated.timing(beamOpacity, {
           toValue: 1,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: USE_NATIVE,
         }),
         Animated.timing(beamHeight, {
           toValue: 1,
           duration: 800,
           easing: Easing.out(Easing.cubic),
-          useNativeDriver: true,
+          useNativeDriver: USE_NATIVE,
         }),
       ]).start();
 
@@ -143,17 +145,17 @@ export default function FlashlightScreen() {
           Animated.timing(beamFlicker, {
             toValue: 1,
             duration: 150,
-            useNativeDriver: true,
+            useNativeDriver: USE_NATIVE,
           }),
           Animated.timing(beamFlicker, {
             toValue: 0.75,
             duration: 150,
-            useNativeDriver: true,
+            useNativeDriver: USE_NATIVE,
           }),
           Animated.timing(beamFlicker, {
             toValue: 0.95,
             duration: 100,
-            useNativeDriver: true,
+            useNativeDriver: USE_NATIVE,
           }),
         ])
       );
@@ -181,12 +183,12 @@ export default function FlashlightScreen() {
             toValue: 1,
             friction: 4,
             tension: 50,
-            useNativeDriver: true,
+            useNativeDriver: USE_NATIVE,
           }),
           Animated.timing(resultOpacity, {
             toValue: 1,
             duration: 500,
-            useNativeDriver: true,
+            useNativeDriver: USE_NATIVE,
           }),
         ]).start();
 
@@ -210,24 +212,24 @@ export default function FlashlightScreen() {
           toValue: Math.cos(angle) * distance,
           duration: 1000 + Math.random() * 500,
           easing: Easing.out(Easing.cubic),
-          useNativeDriver: true,
+          useNativeDriver: USE_NATIVE,
         }),
         Animated.timing(anim.y, {
           toValue: Math.sin(angle) * distance + 60,
           duration: 1000 + Math.random() * 500,
           easing: Easing.out(Easing.cubic),
-          useNativeDriver: true,
+          useNativeDriver: USE_NATIVE,
         }),
         Animated.timing(anim.opacity, {
           toValue: 0,
           duration: 1200,
           delay: 400,
-          useNativeDriver: true,
+          useNativeDriver: USE_NATIVE,
         }),
         Animated.timing(anim.rotate, {
           toValue: Math.random() * 4 - 2,
           duration: 1200,
-          useNativeDriver: true,
+          useNativeDriver: USE_NATIVE,
         }),
       ]).start();
     });
@@ -501,7 +503,7 @@ const styles = StyleSheet.create({
     height: SCREEN_H * 0.55,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    transformOrigin: 'bottom center',
+    ...(Platform.OS === 'web' ? { transformOrigin: 'bottom center' } : {}),
   },
   // Hẹp — gần đèn nhất
   beamNarrow: {
